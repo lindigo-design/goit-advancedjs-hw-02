@@ -1,36 +1,37 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Form</title>
+    <title>Promise generator</title>
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <load
-      src="./partials/header.html"
-      icon-path="./img/sprite.svg#logo"
-      highlight-curr="active"
-    />
+    <main class="container">
+      <form class="form">
+        <label class="form-label">
+          Delay (ms)
+          <input type="number" name="delay" required />
+        </label>
 
-    <main>
-      <div class="container">
-        <form class="feedback-form" autocomplete="off">
+        <fieldset class="form-fieldset">
+          <legend>State</legend>
+
           <label>
-            Email
-            <input type="email" name="email" autofocus />
+            <input type="radio" name="state" value="fulfilled" required />
+            Fulfilled
           </label>
+
           <label>
-            Message
-            <textarea name="message" rows="8"></textarea>
+            <input type="radio" name="state" value="rejected" required />
+            Rejected
           </label>
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+        </fieldset>
+
+        <button type="submit">Create notification</button>
+      </form>
+
+      <script type="module" src="./js/2-snackbar.js"></script>
     </main>
-
-    <load src="./partials/footer.html" />
-
-    <script type="module" src="./js/2-form.js"></script>
   </body>
 </html>

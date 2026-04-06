@@ -1,49 +1,37 @@
-const STORAGE_KEY = 'feedback-form-state';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
-const formData = {
-  email: '',
-  message: '',
-};
+const form = document.querySelector('.form');
 
-const form = document.querySelector('.feedback-form');
-const emailInput = form.querySelector('input[name="email"]');
-const messageInput = form.querySelector('textarea[name="message"]');
-
-// При завантаженні сторінки — відновлюємо дані зі сховища
-const savedData = localStorage.getItem(STORAGE_KEY);
-
-if (savedData) {
-  const parsedData = JSON.parse(savedData);
-  formData.email = parsedData.email ?? '';
-  formData.message = parsedData.message ?? '';
-  emailInput.value = formData.email;
-  messageInput.value = formData.message;
-}
-
-// Слухаємо input через делегування
-form.addEventListener('input', event => {
-  const { name, value } = event.target;
-
-  if (name === 'email' || name === 'message') {
-    formData[name] = value.trim();
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-  }
-});
-
-// Слухаємо submit
 form.addEventListener('submit', event => {
   event.preventDefault();
 
-  if (!formData.email || !formData.message) {
-    alert('Fill please all fields');
-    return;
-  }
+  const delay = Number(form.elements.delay.value);
+  const state = form.elements.state.value;
 
-  console.log(formData);
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (state === 'fulfilled') {
+        resolve(delay);
+      } else {
+        reject(delay);
+      }
+    }, delay);
+  });
 
-  // Очищаємо все
-  localStorage.removeItem(STORAGE_KEY);
-  formData.email = '';
-  formData.message = '';
+  promise
+    .then(delayValue => {
+      iziToast.success({
+        message: `✅ Fulfilled promise in ${delayValue}ms`,
+        position: 'topRight',
+      });
+    })
+    .catch(delayValue => {
+      iziToast.error({
+        message: `❌ Rejected promise in ${delayValue}ms`,
+        position: 'topRight',
+      });
+    });
+
   form.reset();
 });
